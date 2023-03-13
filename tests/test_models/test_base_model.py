@@ -21,25 +21,31 @@ class TestBaseModelDocs(unittest.TestCase):
 
     def test_pep8_conformance(self):
         """Test that models/base_model.py conforms to PEP8."""
-        for path in ['models/base_model.py',
-                     'tests/test_models/test_base_model.py']:
+        for path in [
+            'models/base_model.py',
+            'tests/test_models/test_base_model.py'
+        ]:
             with self.subTest(path=path):
                 errors = pycodestyle.Checker(path).check_all()
                 self.assertEqual(errors, 0)
 
     def test_module_docstring(self):
         """Test for the existence of module docstring"""
-        self.assertIsNot(module_doc, None,
-                         "base_model.py needs a docstring")
-        self.assertTrue(len(module_doc) > 1,
-                        "base_model.py needs a docstring")
+        self.assertIsNot(
+            module_doc, None, "base_model.py needs a docstring"
+            )
+        self.assertTrue(
+            len(module_doc) > 1, "base_model.py needs a docstring"
+            )
 
     def test_class_docstring(self):
         """Test for the BaseModel class docstring"""
-        self.assertIsNot(BaseModel.__doc__, None,
-                         "BaseModel class needs a docstring")
-        self.assertTrue(len(BaseModel.__doc__) >= 1,
-                        "BaseModel class needs a docstring")
+        self.assertIsNot(
+            BaseModel.__doc__, None, "BaseModel class needs a docstring"
+            )
+        self.assertTrue(
+            len(BaseModel.__doc__) >= 1, "BaseModel class needs a docstring"
+            )
 
     def test_func_docstrings(self):
         """Test for the presence of docstrings in BaseModel methods"""
@@ -104,10 +110,12 @@ class TestBaseModel(unittest.TestCase):
             uuid = inst.id
             with self.subTest(uuid=uuid):
                 self.assertIs(type(uuid), str)
-                self.assertRegex(uuid,
-                                 '^[0-9a-f]{8}-[0-9a-f]{4}'
-                                 '-[0-9a-f]{4}-[0-9a-f]{4}'
-                                 '-[0-9a-f]{12}$')
+                self.assertRegex(
+                    uuid,
+                    '^[0-9a-f]{8}-[0-9a-f]{4}'
+                    '-[0-9a-f]{4}-[0-9a-f]{4}'
+                    '-[0-9a-f]{12}$'
+                    )
         self.assertNotEqual(inst1.id, inst2.id)
 
     def test_to_dict(self):
@@ -116,12 +124,14 @@ class TestBaseModel(unittest.TestCase):
         my_model.name = "Holberton"
         my_model.my_number = 89
         d = my_model.to_dict()
-        expected_attrs = ["id",
-                          "created_at",
-                          "updated_at",
-                          "name",
-                          "my_number",
-                          "__class__"]
+        expected_attrs = [
+            "id",
+            "created_at",
+            "updated_at",
+            "name",
+            "my_number",
+            "__class__"
+            ]
         self.assertCountEqual(d.keys(), expected_attrs)
         self.assertEqual(d['__class__'], 'BaseModel')
         self.assertEqual(d['name'], "Holberton")
