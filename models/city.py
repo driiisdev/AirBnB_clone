@@ -1,18 +1,27 @@
-#!/usr/bin/python3
-"""
-Module provides Class City
-"""
+#!/usr/bin/python
+""" holds class City"""
 
-from models.base_model import BaseModel
+import models
+from models.base_model import BaseModel, Base
+from os import getenv
+import sqlalchemy
+from sqlalchemy import Column, String, ForeignKey
+from sqlalchemy.orm import relationship
 
 
-class City(BaseModel):
-    """
-    City class, inherits from BaseModel
-    """
-
-    state_id = ""
-    name = ""
+class City(BaseModel, Base):
+    """Representation of city """
+    if models.storage_t == "db":
+        __tablename__ = 'cities'
+        state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
+        name = Column(String(128), nullable=False)
+        places = relationship(
+            "Place", backref="cities", cascade="all, delete, delete-orphan"
+            )
+    else:
+        state_id = ""
+        name = ""
 
     def __init__(self, *args, **kwargs):
+        """initializes city"""
         super().__init__(*args, **kwargs)
