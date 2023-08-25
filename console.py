@@ -3,7 +3,6 @@
 This module contains the program for the entry point of the command interpreter
 """
 
-
 import cmd
 from models.base_model import BaseModel
 from models.user import User
@@ -16,10 +15,8 @@ from models import storage
 
 
 class HBNBCommand(cmd.Cmd):
-
     """
-    This is the class that the command interpreter program
-    operates on.
+    This is the class that the command interpreter program operates on.
     """
 
     prompt = '(hbnb) '
@@ -42,7 +39,7 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         """
         Prevents the previous command from being executed when
-        and empty libe is passed
+        an empty line is passed
         """
         pass
 
@@ -63,10 +60,11 @@ class HBNBCommand(cmd.Cmd):
         inst.save()
         print(inst.id)
 
-    def check_not_id(id):
+    @staticmethod
+    def check_not_id(id_value):
         current_inst = storage.all()
         for keys, values in current_inst.items():
-            if values['id'] == id:
+            if values['id'] == id_value:
                 return False
         return True
 
@@ -177,8 +175,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_count(self, arg):
         """
-         counts and the number of instances
-         of a class.
+         Counts the number of instances of a class.
         """
         instances = storage.all().copy()
         num_inst = 0
@@ -222,7 +219,7 @@ class HBNBCommand(cmd.Cmd):
                     a = a[1:-1]
                 argv += a + " "
         if cmds == "count":
-            self.count(args[0] + " " + argv)
+            self.do_count(args[0] + " " + argv)
             return
 
         eval("self.do_" + cmds)(args[0] + " " + argv)
